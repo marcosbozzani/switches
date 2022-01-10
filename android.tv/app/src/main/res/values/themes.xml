@@ -1,0 +1,38 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.SwitchesTV" parent="@style/Theme.Leanback">
+        <item name="android:popupMenuStyle">@style/CardPopupMenu</item>
+        <item name="imageCardViewStyle">@style/CardViewStyle</item>
+        <item name="imageCardViewImageStyle">@style/CardViewImageStyle</item>
+        <item name="imageCardViewInfoAreaStyle">@style/CardViewInfoAreaStyle</item>
+        <item name="imageCardViewTitleStyle">@style/CardViewTitleStyle</item>
+    </style>
+
+    <style name="CardViewStyle" parent="Widget.Leanback.ImageCardViewStyle">
+        <item name="lbImageCardViewType">Title</item>
+        <item name="android:backgroundTint">@color/gray_700</item>
+    </style>
+
+    <style name="CardViewImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:tint">@color/white_off</item>
+    </style>
+
+    <style name="CardViewInfoAreaStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
+        <item name="android:background">@color/gray_800</item>
+    </style>
+
+    <style name="CardViewTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="CardPopupMenu" parent="@android:style/Widget.Material.ListPopupWindow">
+        <item name="android:overlapAnchor">false</item>
+        <item name="android:dropDownHorizontalOffset">0dp</item>
+        <item name="android:dropDownVerticalOffset">30dp</item>
+    </style>
+
+</resources>

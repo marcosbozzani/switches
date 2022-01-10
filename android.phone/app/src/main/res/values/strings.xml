@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Switches</string>
+    <string name="switch_default_text">Switch</string>
+    <string name="switch_name">Name</string>
+    <string name="switch_local_address">Local Address</string>
+    <string name="switch_save">Save</string>
+    <string name="switch_remove">Remove</string>
+    <string name="version">version</string>
+    <string name="device_id">Device ID</string>
+    <string name="placeholder">(placeholder)</string>
+    <string name="ssid">SSID</string>
+    <string name="fw_version">FW Version</string>
+    <string name="device_not_found_or_offline">Device not found or offline</string>
+    <string name="offline">offline</string>
+    <string name="power_on_state">Power-on State</string>
+    <string name="off">Off</string>
+    <string name="on">On</string>
+    <string name="stay">Stay</string>
+    <string name="default_switch_for_quick_settings_button">Default Switch for Quick Settings Button</string>
+    <string name="choose_a_switch">Choose a switch</string>
+</resources>
