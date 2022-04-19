@@ -1,12 +1,7 @@
 package duck.switches.android.phone.ui;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.os.Build;
-import android.os.IBinder;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 

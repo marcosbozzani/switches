@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.snackbar.Snackbar;
 
 import duck.switches.android.model.Switch;
+import duck.switches.android.model.SwitchInfo;
 import duck.switches.android.model.SwitchInfoResult;
 import duck.switches.android.model.SwitchListener;
 import duck.switches.android.model.SwitchState;
@@ -19,6 +20,7 @@ import duck.switches.android.phone.R;
 import duck.switches.android.phone.adapter.DragAndDrop;
 import duck.switches.android.phone.adapter.SwitchAdapter;
 import duck.switches.android.phone.databinding.MainActivityBinding;
+import duck.switches.android.phone.model.LockMode;
 import duck.switches.android.service.SwitchRegistry;
 import duck.switches.android.service.SwitchService;
 
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private SwitchAdapter adapter;
     private SwitchRegistry switchRegistry;
     private SwitchService switchService;
+    private LockMode lockMode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,31 +42,19 @@ public class MainActivity extends AppCompatActivity {
 
         switchService = new SwitchService();
         switchRegistry = new SwitchRegistry(this);
+        lockMode = new LockMode(this);
 
         adapter = new SwitchAdapter();
         adapter.setOnClick((aSwitch, switchInfo) -> {
-            Intent intent = new Intent(this, SwitchActivity.class);
-            intent.putExtra("switchId", aSwitch.getId());
-            startActivity(intent);
-        });
-        adapter.setOnToggle((aSwitch, switchInfo) -> {
-            if (switchInfo == null) {
-                switchService.getInfo(aSwitch, this::update);
+            if (lockMode.getState() == LockMode.ON) {
+                toggle(aSwitch, switchInfo);
             } else {
-                SwitchState state = switchInfo.getSwitchState() == SwitchState.ON
-                        ? SwitchState.OFF
-                        : SwitchState.ON;
-                switchService.setSwitchState(aSwitch, state, ok -> {
-                    ThreadUtils.runOnUiThread(() -> {
-                        if (!ok) {
-                            final String message = aSwitch.getName() + " error";
-                            Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_LONG).show();
-                        }
-                        switchService.getInfo(aSwitch, this::update);
-                    });
-                });
+                Intent intent = new Intent(this, SwitchActivity.class);
+                intent.putExtra("switchId", aSwitch.getId());
+                startActivity(intent);
             }
         });
+        adapter.setOnToggle(this::toggle);
         adapter.setOnUpdate((aSwitch, switchInfo) -> {
             switchRegistry.add(aSwitch);
         });
@@ -116,4 +107,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void toggle(Switch aSwitch, SwitchInfo switchInfo) {
+        if (switchInfo == null) {
+            switchService.getInfo(aSwitch, this::update);
+        } else {
+            SwitchState state = switchInfo.getSwitchState() == SwitchState.ON
+                    ? SwitchState.OFF
+                    : SwitchState.ON;
+            switchService.setSwitchState(aSwitch, state, ok -> {
+                ThreadUtils.runOnUiThread(() -> {
+                    if (!ok) {
+                        final String message = aSwitch.getName() + " error";
+                        Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_LONG).show();
+                    }
+                    switchService.getInfo(aSwitch, this::update);
+                });
+            });
+        }
+    }
 }

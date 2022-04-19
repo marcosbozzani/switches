@@ -12,11 +12,13 @@ import duck.switches.android.model.Switch;
 import duck.switches.android.phone.BuildConfig;
 import duck.switches.android.phone.R;
 import duck.switches.android.phone.databinding.SettingsActivityBinding;
+import duck.switches.android.phone.model.LockMode;
 import duck.switches.android.service.SwitchRegistry;
 
 public class SettingsActivity extends AppCompatActivity {
     private SettingsActivityBinding binding;
     private SwitchRegistry switchRegistry;
+    private LockMode lockMode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         binding = SettingsActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         switchRegistry = new SwitchRegistry(this);
+        lockMode = new LockMode(this);
     }
 
     @Override
@@ -45,5 +48,10 @@ public class SettingsActivity extends AppCompatActivity {
         if (defaultSwitch != null) {
             binding.cmbDefaultSwitch.setText(defaultSwitch.getName(), false);
         }
+
+        binding.chkLockMode.setChecked(lockMode.getState());
+        binding.chkLockMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            lockMode.setState(isChecked);
+        });
     }
 }
